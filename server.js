@@ -6,6 +6,7 @@ import userRouter from "./Router/User.router.js";
 import StudentRouter from "./Router/StudentRouter.js";
 import userAuth from './middleware/userJwtAuth.js';
 import rateLimit from 'express-rate-limit';
+import cors from 'cors';
 
 // DB Connection
 ConnectDB();
@@ -29,6 +30,13 @@ app.use(limiter);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+ app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+ }));
+
+
 
 // Static files
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
