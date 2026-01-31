@@ -23,6 +23,11 @@ const limiter = rateLimit({
 });
 
 const app = express();
+ app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+ }));
 
 // Apply limiter
 app.use(limiter);
@@ -31,11 +36,7 @@ app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
- app.use(cors({
-  origin: "http://localhost:5173",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
- }));
+
 
 
 
