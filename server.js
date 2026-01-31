@@ -30,6 +30,7 @@ app.use(limiter);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
  app.use(cors({
   origin: "http://localhost:5173",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -43,8 +44,9 @@ app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
 
 // Routes
 app.use("/api/user", userRouter);
-app.use(userAuth);
-app.use("/api/students", StudentRouter);
+
+// app.use(userAuth);
+app.use("/api/students", userAuth,StudentRouter);
 
 // Server
 const PORT = process.env.PORT || 4018;
