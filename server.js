@@ -47,7 +47,7 @@ app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
 app.use("/api/user", userRouter);
 
 // app.use(userAuth);
-app.use("/api/students", userAuth,StudentRouter);
+app.use("/api/students", userAuth, StudentRouter);
 
 // Server
 const PORT = process.env.PORT || 4018;

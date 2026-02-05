@@ -41,18 +41,17 @@ const upload = multer({
 router.post('/', upload.single('student_photo') , async(req, res) => {
     try {
  
-        let data = await StudentModel(req.body);
- 
         if(req.file){
-            data.student_photo = req.file.filename
+            req.body.student_photo = req.file.filename;
+        
         }
- 
-        let newStudentData = await data.save();
-        res.status(200).json(newStudentData);
+          const student = await StudentModel.create(req.body);
+    
+        res.status(201).json(student);
  
     }
     catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message })
     }
 });
 
