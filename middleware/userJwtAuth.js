@@ -7,7 +7,7 @@ const userAuth = async(req, res, next)=>{
         console.log(beareHeader);
         
         if(typeof beareHeader!= 'undefined'){
-              const token = beareHeader.split('')[1];
+              const token = beareHeader.split(" ")[1];
              const user = jwt.verify(token, process.env.JWT_SECRET);
             console.log(token);
             req.token = user;
