@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const userAuth = async(req, res, next)=>{
     
     try {
-        let beareHeader= req.headers['authorization'];
+        let beareHeader= req.headers['Authorization'];
         console.log(beareHeader);
         
         if(typeof beareHeader!= 'undefined'){
