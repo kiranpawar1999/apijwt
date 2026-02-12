@@ -91,7 +91,8 @@ router.get('/:_id', async (req, res) => {
 router.put("/update-student/:_id", upload.single("student_photo"),  async (req, res) => {
 
  try {
-        let existingStudent = await StudentModel.findById(req.params.id);
+        let existingStudent = await StudentModel.findOne({_id: Number(req.params.id)});
+
 
         //IMAGE UPDATE
 
@@ -114,10 +115,13 @@ if (!existingStudent) {
     }
       return res.status(404).json({ message: "student data not found" });
   }
- let data = await StudentModel.findByIdAndUpdate(req.params.id, req.body,
-            { new: true }
-        );
-        res.json(data)
+ let updated = await StudentModel.findOneAndUpdate(
+    { _id: Number(req.params.id) },
+    req.body,
+    { new: true }
+);
+
+        res.json(updated)
     }
     catch (error) {
         res.status(500).json({ message: error.message });
