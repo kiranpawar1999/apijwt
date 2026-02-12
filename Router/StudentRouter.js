@@ -40,6 +40,10 @@ const upload = multer({
 
 router.post('/', upload.single('student_photo') , async(req, res) => {
     try {
+
+        console.log("BODY:", req.body);
+        console.log("FILE:", req.file);
+
  
         if(req.file){
             req.body.student_photo = req.file.filename;
@@ -121,19 +125,7 @@ if (!existingStudent) {
     }
 });
 //FINDONE AND UPDATE
-router.put('/:id', async (req, res) => {
-    try {
-        const updatedStudent = await StudentModel.findOneAndUpdate(
-            { _id: Number(req.params.id) }, // 👈 FIX IS HERE
-            req.body,
-            { new: true }
-        );
 
-        res.json(updatedStudent);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
 
 //DELETE DATA API
 router.delete('/:id', async (req, res) => {
@@ -186,12 +178,4 @@ router.get('/search/:key',async(req, res)=>{
           res.status(500).json({message: error.message});
     }
 });
-
-
-
-
-
-
-
-
 export default router;
