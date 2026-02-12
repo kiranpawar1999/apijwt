@@ -85,50 +85,50 @@ router.get('/:_id', async (req, res) => {
 });
 
 
+router.put("/update-student/:_id", upload.single("student_photo"), async (req, res) => {
+    try {
 
+        const id = Number(req.params._id);  // ✅ FIXED
 
-//UPDATE DATA API
-router.put("/update-student/:_id", upload.single("student_photo"),  async (req, res) => {
+        let existingStudent = await StudentModel.findOne({ _id: id });
 
- try {
-        let existingStudent = await StudentModel.findOne({_id: Number(req.params.id)});
-
-
-        //IMAGE UPDATE
-
-        if(req.file) {
-       if(existingStudent.student_photo) {
-        const oldFilePath = path.join('./Uploads', existingStudent.student_photo);
-        fs.unlink(oldFilePath,(err)=> {
-            if(err) console.log('failed to image update....', err);
-            })
+        if (!existingStudent) {
+            // remove uploaded file if student not found
+            if (req.file) {
+                const filePath = path.join('./Uploads', req.file.filename);
+                fs.unlink(filePath, (err) => {
+                    if (err) console.log('failed to delete image: ', err);
+                });
+            }
+            return res.status(404).json({ message: "student data not found" });
         }
-          req.body.student_photo = req.file.filename;
-}
-// duplicate image remove code
-if (!existingStudent) {
-    if (req.file.filename) {
-        const filePath = path.join('./Uploads', req.file.filename)
-        fs.unlink(filePath, (err)=> {
-            if (err) console.log('failed to delete image: ', err);
-               })
-    }
-      return res.status(404).json({ message: "student data not found" });
-  }
- let updated = await StudentModel.findOneAndUpdate(
-    { _id: Number(req.params.id) },
-    req.body,
-    { new: true }
-);
 
-        res.json(updated)
-    }
-    catch (error) {
+        // IMAGE UPDATE
+        if (req.file) {
+            if (existingStudent.student_photo) {
+                const oldFilePath = path.join('./Uploads', existingStudent.student_photo);
+                fs.unlink(oldFilePath, (err) => {
+                    if (err) console.log('failed to delete old image....', err);
+                });
+            }
+
+            req.body.student_photo = req.file.filename;
+        }
+
+        let updated = await StudentModel.findOneAndUpdate(
+            { _id: id },
+            req.body,
+            { new: true }
+        );
+
+        res.json(updated);
+
+    } catch (error) {
+        console.log(error);   // 👈 important for debugging
         res.status(500).json({ message: error.message });
-
     }
 });
-//FINDONE AND UPDATE
+
 
 
 //DELETE DATA API
