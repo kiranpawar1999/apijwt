@@ -21,38 +21,38 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
         cb(null, true)
     }
-    else if(file.mimetype.startsWith('application/pdf')){
-        cb(null,  true)
+    else if (file.mimetype.startsWith('application/pdf')) {
+        cb(null, true)
     }
     else {
-  cb(new Error('Only image or PDF files are allowed'), false);
-}
+        cb(new Error('Only image or PDF files are allowed'), false);
+    }
 
 }
 
 const upload = multer({
     storage: Storage,
     fileFilter: fileFilter,
-    limits: {fileSize: 1024 * 1024 * 100}
+    limits: { fileSize: 1024 * 1024 * 100 }
 })
 
 //INSERT DATA API
 
-router.post('/', upload.single('student_photo') , async(req, res) => {
+router.post('/', upload.single('student_photo'), async (req, res) => {
     try {
 
         console.log("BODY:", req.body);
         console.log("FILE:", req.file);
 
- 
-        if(req.file){
+
+        if (req.file) {
             req.body.student_photo = req.file.filename;
-        
+
         }
-          const student = await StudentModel.create(req.body);
-    
+        const student = await StudentModel.create(req.body);
+
         res.status(201).json(student);
- 
+
     }
     catch (error) {
         res.status(500).json({ message: error.message })
@@ -88,11 +88,11 @@ router.get('/:_id', async (req, res) => {
 router.put("/update-student/:_id", upload.single("student_photo"), async (req, res) => {
     try {
 
-        let existingStudent = await StudentModel.findOne({ _id: req.params._id});
+        let existingStudent = await StudentModel.findById(req.params._id);
 
         if (!existingStudent) {
             // remove uploaded file if student not found
-            if (req.file) {
+            if (req.file.filename) {
                 const filePath = path.join('./Uploads', req.file.filename);
                 fs.unlink(filePath, (err) => {
                     if (err) console.log('failed to delete image: ', err);
@@ -113,12 +113,12 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
             req.body.student_photo = req.file.filename;
         }
 
-        let updated = await StudentModel.findOneAndUpdate(
-            { _id: req.params._id},
+        let updated = await StudentModel.findByIdAndUpdate(
+            req.params._id,
             req.body,
             { new: true }
         );
-
+        if (!updated) return res.status(404).json({ message: "Student Not Found" });
         res.json(updated);
 
     } catch (error) {
@@ -155,29 +155,29 @@ router.post('/upload', async (req, res) => {
 });
 
 //SEARCH DATA API
-router.get('/search/:key',async(req, res)=>{
-    try{
+router.get('/search/:key', async (req, res) => {
+    try {
         const key = req.params.key;
         const searchCon = [
-            {student_name: {$regex: key,$options: 'i'}},
-            {student_email: {$regex: key,$options: 'i'}},
-            
+            { student_name: { $regex: key, $options: 'i' } },
+            { student_email: { $regex: key, $options: 'i' } },
+
         ]
-        if(!isNaN(key) ){
-            searchCon.push({ student_age: Number(key)});
+        if (!isNaN(key)) {
+            searchCon.push({ student_age: Number(key) });
         }
 
         let data = await StudentModel.find({
             $or: searchCon
         });
 
-        if (data.length === 0){
-         return res.status(404).json({message: "Student Not Found"});
+        if (data.length === 0) {
+            return res.status(404).json({ message: "Student Not Found" });
         }
         res.json(data);
 
-    }catch (error){
-          res.status(500).json({message: error.message});
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 export default router;
