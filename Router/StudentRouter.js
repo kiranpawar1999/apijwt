@@ -84,11 +84,14 @@ router.get('/:_id', async (req, res) => {
     }
 });
 
+//update data
 
 router.put("/update-student/:_id", upload.single("student_photo"), async (req, res) => {
     try {
+        
 
-        let existingStudent = await StudentModel.findById(req.params._id);
+        let existingStudent = await StudentModel.findById(Number(req.params._id));
+
 
         if (!existingStudent) {
             // remove uploaded file if student not found
@@ -113,11 +116,15 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
             req.body.student_photo = req.file.filename;
         }
 
-        let updated = await StudentModel.findByIdAndUpdate(
-            req.params._id,
-            req.body,
-            { new: true }
-        );
+       let updated = await StudentModel.findByIdAndUpdate(
+    req.params._id,
+    req.body,
+    { 
+        new: true,
+        runValidators: true
+    }
+);
+
         if (!updated) return res.status(404).json({ message: "Student Not Found" });
         res.json(updated);
 
