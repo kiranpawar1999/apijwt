@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 // Rate limiter
 const limiter = rateLimit({
   windowMs: 1000 * 60, // 1 minute
-  max: 6,
+  max: 50,
   message: "Too Many Requests from this API, Please try again later"
 });
 
