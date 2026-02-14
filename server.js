@@ -36,10 +36,6 @@ app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-
-
 // Static files
 app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
 
