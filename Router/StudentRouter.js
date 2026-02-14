@@ -118,7 +118,7 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
 
         let updated = await StudentModel.findByIdAndUpdate(
             studentId,
-            req.body,
+           {$set: req.body},
             {
                 new: true,
                 runValidators: true
