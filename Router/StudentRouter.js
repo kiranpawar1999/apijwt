@@ -110,15 +110,17 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
                     if (err) console.log('failed to delete old image....', err);
                 });
             }
-
             req.body.student_photo = req.file.filename;
         }
 
-        let updated = await StudentModel.updateOne(
-            req.params._id,
-            req.body,
-            { new: true }
+          // 🔥 THIS LINE ACTUALLY SAVES IN MONGODB
+        const updatedStudent = await StudentModel.findByIdAndUpdate(
+            existingStudent,
+            { $set: req.body },
+            { new: true, runValidators: true }
         );
+
+        res.json(updatedStudent);
 
         if (!updated) return res.status(404).json({ message: "Student Not Found" });
         res.json(updated);
