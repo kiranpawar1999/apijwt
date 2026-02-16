@@ -100,6 +100,7 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
                 fs.unlink(filePath, (err) => {
                     if (err) console.log('failed to delete image: ', err);
                 });
+                
             }
             return res.status(404).json({ message: "student data not found" });
         }
@@ -114,11 +115,12 @@ router.put("/update-student/:_id", upload.single("student_photo"), async (req, r
             }
 
             req.body.student_photo = req.file.filename;
+
         }
 
         let updated = await StudentModel.findByIdAndUpdate(
             studentId,
-           {$set: req.body},
+        
             {
                 new: true,
                 runValidators: true
