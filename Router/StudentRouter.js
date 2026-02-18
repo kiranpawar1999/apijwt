@@ -86,10 +86,10 @@ router.get('/:_id', async (req, res) => {
 
 //update data
 
-router.put("/update-student/:_id", upload.single("student_photo"), async (req, res) => {
+router.put("/update-student/:id", upload.single("student_photo"), async (req, res) => {
     try {
 
-        let existingStudent = await StudentModel.findById(req.params._id);
+        let existingStudent = await StudentModel.findById(req.params.id);
 
         if (!existingStudent) {
             // remove uploaded file if student not found
