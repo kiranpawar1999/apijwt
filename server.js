@@ -7,7 +7,7 @@ import StudentRouter from "./Router/StudentRouter.js";
 import userAuth from './middleware/userJwtAuth.js';
 import rateLimit from 'express-rate-limit';
 import cors from 'cors';
-import ImageRouter from "./Router/ImageRouter.js";
+import imageRoutes from "./Router/ImageRouter.js";
 
 // DB Connection
 ConnectDB();
@@ -42,7 +42,7 @@ app.use("/Uploads", express.static(path.join(__dirname, "Uploads")));
 
 // Routes
 app.use("/api/user", userRouter);
-app.use("/", ImageRouter);
+app.use("/", imageRoutes);
 
 // app.use(userAuth);
 app.use("/api/students", userAuth, StudentRouter);
