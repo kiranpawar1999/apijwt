@@ -1,5 +1,5 @@
 import cloudinary from "../config/Cloudinary.js";
-import imageUploadModel from "../models/ImageModel.js";
+import imageUploadModel from "../models/imageModel.js";
 
 // ✅ Get All Data
 export const getData = async (req, res) => {
