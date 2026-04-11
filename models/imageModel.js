@@ -1,16 +1,24 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const imageSchema = new mongoose.Schema({
-  student_name: {
-    type: String,
-    required: true,
-  },
-  student_image: {
-    type: String,
-  },
-  public_id: {
-    type: String,
-  },
-});
+const ImageSchema = new mongoose.Schema({   // 👈 spelling fix
+    student_name: {
+        type: String,
+        required: true
+    },
+    student_image: {
+        type: String,
+        required: true
+    },
+    public_id: {
+        type: String
+    }
+}, { timestamps: true });
 
-export default mongoose.model("Image", imageSchema);
+const imageUploadModel = mongoose.model(
+    process.env.STUDENT_IMAGE || "studentImage",
+    ImageSchema   // 👈 same name use karo
+);
+
+export default imageUploadModel;
