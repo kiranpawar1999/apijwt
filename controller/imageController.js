@@ -1,5 +1,5 @@
 import cloudinary from "../Config/Cloudinary.js";
-import imageUploadModel from "../models/ImageModel.js";
+import imageUploadModel from "../models/imageModel.js";
 import fs from "fs";
 
 // ✅ Get All Data (Home Page)
