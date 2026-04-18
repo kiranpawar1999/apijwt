@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const userAuth = async(req, res, next)=>{
     try {
-        let beareHeader = req.headers['authorization'];   // lowercase
+        let beareHeader = req.headers['Authorization'];   // lowercase
 
         console.log("HEADER:", beareHeader);
 
