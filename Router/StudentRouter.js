@@ -5,8 +5,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-import fs from 'fs';
-
 // ✅ create Uploads folder if not exists
 if (!fs.existsSync('./Uploads')) {
     fs.mkdirSync('./Uploads');
@@ -16,7 +14,7 @@ if (!fs.existsSync('./Uploads')) {
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './Uploads');
-        
+
 
     },
     filename: (req, file, cb) => {
