@@ -21,6 +21,6 @@ let userSchema = new mongoose.Schema({
     }
 });
 
-let userModel = mongoose.model(userSchema);
+let userModel = mongoose.model(process.env.MONGODB_USER_COLLECTION_NAME, userSchema);
 
 export default userModel;
