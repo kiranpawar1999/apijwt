@@ -5,10 +5,18 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+import fs from 'fs';
+
+// ✅ create Uploads folder if not exists
+if (!fs.existsSync('./Uploads')) {
+    fs.mkdirSync('./Uploads');
+}
+
 
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './Uploads');
+        
 
     },
     filename: (req, file, cb) => {
@@ -18,7 +26,7 @@ const Storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
+    if (file.mimetype.startsWith('photo/')) {
         cb(null, true)
     }
     else if (file.mimetype.startsWith('application/pdf')) {

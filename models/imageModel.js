@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const ImageSchema = new mongoose.Schema({   // 👈 spelling fix
-     student_image: {
+     student_photo: {
         type: String,
         required: true
     },
