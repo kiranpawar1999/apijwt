@@ -44,24 +44,38 @@ const upload = multer({
 
 //INSERT DATA API
 
-router.post('/', upload.single('student_photo'), async (req, res) => {
+// router.post('/', upload.single('student_photo'), async (req, res) => {
+//     try {
+
+//         console.log("BODY:", req.body);
+//         console.log("FILE:", req.file);
+
+
+//         if (req.file) {
+//             req.body.student_photo = req.file.filename;
+
+//         }
+//         const student = await StudentModel.create(req.body);
+
+//         res.status(201).json(student);
+
+//     }
+//     catch (error) {
+//         res.status(500).json({ message: error.message })
+//     }
+// });
+
+router.post('/', async (req, res) => {
     try {
-
         console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
 
-
-        if (req.file) {
-            req.body.student_photo = req.file.filename;
-
-        }
         const student = await StudentModel.create(req.body);
 
         res.status(201).json(student);
 
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
+    } catch (error) {
+        console.log("ERROR:", error); // 👈 IMPORTANT
+        res.status(500).json({ message: error.message });
     }
 });
 
