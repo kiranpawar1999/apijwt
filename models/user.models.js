@@ -21,6 +21,6 @@ let userSchema = new mongoose.Schema({
     }
 });
 
-let userModel = mongoose.model('JWTusers', userSchema);
+let userModel = mongoose.model(userSchema);
 
 export default userModel;
