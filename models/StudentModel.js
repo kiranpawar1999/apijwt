@@ -34,7 +34,7 @@ const studentSchema = new mongoose.Schema({
     }
 });
  
-const Student = mongoose.model(process.env.MONGODB_COLLECTION_NAME, studentSchema);
+const Student = mongoose.model("students", studentSchema);
 export default Student;
  
  
