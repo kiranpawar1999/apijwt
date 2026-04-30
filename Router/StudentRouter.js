@@ -40,7 +40,7 @@ const upload = multer({
     storage: Storage,
     fileFilter: fileFilter,
     limits: { fileSize: 1024 * 1024 * 100 }
-})
+});
 
 //INSERT DATA API
 
