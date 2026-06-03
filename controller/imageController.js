@@ -36,7 +36,7 @@ export const insertImage = async (req, res) => {
         fs.unlinkSync(req.file.path);
 
         await imageUploadModel.create({
-            student_image: uploadResult.secure_url,
+            student_photo: uploadResult.secure_url,
             public_id: uploadResult.public_id
         });
 
@@ -115,7 +115,7 @@ export const updateImage = async (req, res) => {
         fs.unlinkSync(req.file.path);
 
         await imageUploadModel.findByIdAndUpdate(req.params.id, {
-            student_image: uploadResult.secure_url,
+            student_photo: uploadResult.secure_url,
             public_id: uploadResult.public_id
         });
 
