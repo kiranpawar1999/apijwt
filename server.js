@@ -25,10 +25,13 @@ const limiter = rateLimit({
 
 const app = express();
  app.use(cors({
-  origin: " http://localhost:5173/",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: [
+    "http://localhost:5173",
+    "https://candid-naiad-1b20e2.netlify.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
- }));
+}));
 
 // Apply limiter
 app.use(limiter);
